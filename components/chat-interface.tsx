@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 import { Loader2, SendHorizontal } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
+import { v4 as uuidv4 } from 'uuid'
 
 interface Message {
   id: string
@@ -83,7 +84,7 @@ export default function ChatInterface({ sessionId, resumeText, analysis }: ChatI
 
     // Add user message to chat
     const userMessage: Message = {
-      id: Date.now().toString(),
+      id: uuidv4(),
       role: "user",
       content: input,
     }
@@ -125,7 +126,7 @@ export default function ChatInterface({ sessionId, resumeText, analysis }: ChatI
 
       // Add assistant response to chat
       const assistantMessage: Message = {
-        id: Date.now().toString(),
+        id: uuidv4(),
         role: "assistant",
         content: data.response,
       }
@@ -146,7 +147,7 @@ export default function ChatInterface({ sessionId, resumeText, analysis }: ChatI
 
       // Add error message
       const errorMessage: Message = {
-        id: Date.now().toString(),
+        id: uuidv4(),
         role: "assistant",
         content: "I'm sorry, I encountered an error processing your request. Please try again.",
       }
@@ -178,13 +179,13 @@ export default function ChatInterface({ sessionId, resumeText, analysis }: ChatI
   }
 
   return (
-    <Card className="w-full">
-      <CardHeader>
+    <Card className="w-full h-[700px] flex flex-col">
+      <CardHeader className="flex-none">
         <CardTitle>Career Guidance Chat</CardTitle>
         <CardDescription>Chat with our AI career coach about your resume and career options</CardDescription>
       </CardHeader>
-      <CardContent>
-        <div className="h-[500px] overflow-y-auto pr-4 space-y-4">
+      <CardContent className="flex-1 overflow-hidden">
+        <div className="h-full overflow-y-auto pr-4 space-y-4">
           {messages.map((message) => (
             <div
               key={message.id}
@@ -207,13 +208,14 @@ export default function ChatInterface({ sessionId, resumeText, analysis }: ChatI
           <div ref={messagesEndRef} />
         </div>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="flex-none border-t bg-background pt-4">
         <form onSubmit={handleSubmit} className="flex w-full items-center space-x-2">
           <Textarea
             placeholder="Ask about your career options, skills to develop, or resume improvements..."
             value={input}
             onChange={handleInputChange}
             className="min-h-12 flex-1"
+            rows={2}
           />
           <Button type="submit" size="icon" disabled={isLoading || !input.trim() || !isInitialized}>
             {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <SendHorizontal className="h-4 w-4" />}

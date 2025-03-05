@@ -76,7 +76,7 @@ You are an expert resume reviewer and career coach. Analyze the following resume
 1. A summary of the candidate's profile
 2. Key skills identified
 3. Experience highlights
-4. Education details
+4. Education details (format each education entry as a single string, e.g. "Bachelor of Science in Computer Science, Stanford University, 3.8 GPA, 2020")
 5. Strengths of the resume
 6. Areas for improvement
 7. Suggested career paths based on their experience and skills
@@ -87,17 +87,20 @@ Resume:
 ${resumeText}
 
 Format your response as a JSON object with the following keys:
-- profileSummary
-- keySkills (array)
-- experienceHighlights (array)
-- education (array)
-- strengths (array)
-- areasForImprovement (array)
-- suggestedCareerPaths (array)
-- recommendedSkills (array)
-- recommendedCertifications (array)
+- profileSummary (string)
+- keySkills (array of strings)
+- experienceHighlights (array of strings)
+- education (array of strings, each string containing the full education details)
+- strengths (array of strings)
+- areasForImprovement (array of strings)
+- suggestedCareerPaths (array of strings)
+- recommendedSkills (array of strings)
+- recommendedCertifications (array of strings)
 
-IMPORTANT: Return ONLY the JSON object with no markdown formatting, no code blocks, and no additional text.
+IMPORTANT: 
+- Return ONLY the JSON object with no markdown formatting, no code blocks, and no additional text
+- Make sure education entries are strings, not objects
+- Example education entry: "Master of Science in Data Science, MIT, 3.9 GPA, 2021"
 `;
 
     const { text } = await generateText({
